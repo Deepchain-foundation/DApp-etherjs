@@ -1,0 +1,7 @@
+/* stylelint-disable declaration-block-no-redundant-longhand-properties */
+.SetLazySpinCent {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
