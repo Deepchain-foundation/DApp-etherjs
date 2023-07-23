@@ -22,14 +22,14 @@ const useMetamask = () => {
         if (window.ethereum) {
             const handleAccountsChanged = (accounts: any) => {
                 setIssuccess(accounts.length > 0);
-                setAccountAddress(accounts);
                 if (accounts.length > 0) {
-
-                    message.info('当前账户数量' + accounts.length);
-                    message.info('当前使用账号' + accounts[0]);
+                    message.success(`账户数量 ${accounts.length}
+                    当前使用账号 ${accounts[0]}
+                    `);
                 } else {
                     message.info('无账号连接');
                 }
+                setAccountAddress(accounts);
             };
 
             window.ethereum.on('accountsChanged', handleAccountsChanged);
