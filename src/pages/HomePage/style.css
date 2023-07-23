@@ -1,0 +1,34 @@
+.Menu{
+    height: 50px;
+    width: 50px;
+    background-color: #fff;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 20px;
+
+  
+}
+
+.Drop:hover .Menu{
+    border: 1px solid #efefef;
+    box-shadow: 1px 0 10px #b1b1b1;
+}
+
+
+
+.Header{
+    background-color: #3f51b5;
+    padding: 0;
+    text-align: left;
+    display: flex;
+    align-items: center;
+}
+
+.Middle{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+}

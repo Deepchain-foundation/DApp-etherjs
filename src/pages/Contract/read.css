@@ -1,0 +1,13 @@
+.read-div-center{
+    width: 50%;
+    height: 90%;
+    position: absolute;
+    inset: 0; 
+    margin: auto;
+    min-width: 500px;
+}
+
+.ReadMain{
+    position: absolute;
+    right: 20px;
+}
