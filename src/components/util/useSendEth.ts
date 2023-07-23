@@ -15,7 +15,11 @@ const useSendEth = () => {
         setHash('');
 
         try {
-
+            message.loading({
+                content: '待确认',
+                key: 'keymessage',
+                duration: 0,
+            });
             const provider = new ethers.providers.Web3Provider(window.ethereum);
             const signer = await provider.getSigner();
             // 构建交易
@@ -27,8 +31,13 @@ const useSendEth = () => {
             // 发送交易
             const txResponse = await signer.sendTransaction(transaction);
             setHash(txResponse.hash);
-
+            message.loading({
+                content: '已确认，等待交易中',
+                key: 'keymessage',
+                duration: 0,
+            });
             await txResponse.wait();
+            message.destroy('keymessage');
             message.success('成功');
             setLoading(false);
         } catch (err: any) {
@@ -38,6 +47,7 @@ const useSendEth = () => {
                 setError('交易错误');
                 console.log("交易错误", err.message);
             }
+            message.destroy('keymessage');
             setLoading(false);
         }
     };

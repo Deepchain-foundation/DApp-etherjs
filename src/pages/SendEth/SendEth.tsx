@@ -1,6 +1,6 @@
 import './sendEth.css';
 
-import { Button, Card, Col, Form, Input, Row, Spin } from 'antd';
+import { Button, Card, Col, Form, Input, message, Row, Spin } from 'antd';
 import { useEffect, useState } from 'react';
 
 import getethRemain from '@/components/util/getethRemain';
@@ -18,6 +18,12 @@ const SendEth = () => {
   } = useMetamask();
 
   const send = async (values: any) => {
+    if (accountAddress[0] === undefined) {
+      await connectToMetamask().catch(() => {
+        // 如果没有连接后面不执行
+        return;
+      });
+    }
     await sendEth(values.address, values.count);
     const data = await getethRemain(accountAddress[0]);
     setRemain(data);
@@ -82,32 +88,42 @@ const SendEth = () => {
           </Col>
         </Row>
       </Form>
+      <hr />
+      <br />
       <Row style={{ width: '100%' }} gutter={[0, 20]}>
         <Col span={24}>
-          <Spin spinning={sendLoading}>
-            <Card hoverable type="inner" title="当前账号信息">
+          <Card hoverable type="inner" title="当前账号信息">
+            <Spin spinning={sendLoading}>
               <Row justify={'center'} gutter={[0, 20]}>
                 <Col span={7}>地址</Col>
                 <Col span={17}>{accountAddress[0]}</Col>
                 <Col span={7}>ETH余额</Col>
                 <Col span={17}>{remain}ETH</Col>
               </Row>
-            </Card>
-          </Spin>
+            </Spin>
+          </Card>
         </Col>
         <Col span={24}>
           <Card hoverable type="inner" title="交易信息">
-            <Row justify={'center'}>
-              <Col span={7}>交易hash</Col>
-              <Col span={17}>{hash}</Col>
-              <Col span={7}>交易金额</Col>
-              <Col span={17}>{}</Col>
-            </Row>
+            <Spin spinning={sendLoading}>
+              <Row justify={'center'}>
+                <Col span={7}>交易hash</Col>
+                <Col span={17}>{hash}</Col>
+              </Row>
+            </Spin>
           </Card>
         </Col>
-        <hr />
+      </Row>
+      <br />
+      <hr />
+      <Row gutter={[0, 20]}>
         <Col span={24}>
           <div>测试地址：0xf97D095CBB8b81f151d80f298680E6cDBBD4DBa8</div>
+          <h3>功能</h3>
+          <div>发送</div>
+          <h3>下一步</h3>
+          <div>完善交易信息</div>
+          <div>gas费用计算</div>
         </Col>
       </Row>
     </Card>

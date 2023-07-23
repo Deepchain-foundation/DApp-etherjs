@@ -13,7 +13,7 @@ const useMetamask = () => {
     message.config({
         top: 50,
         duration: 2,
-        maxCount: 2,
+        maxCount: 3,
         rtl: true,
     });
 
@@ -23,7 +23,13 @@ const useMetamask = () => {
             const handleAccountsChanged = (accounts: any) => {
                 setIssuccess(accounts.length > 0);
                 setAccountAddress(accounts);
-                message.info('当前账户数量' + accounts.length);
+                if (accounts.length > 0) {
+
+                    message.info('当前账户数量' + accounts.length);
+                    message.info('当前使用账号' + accounts[0]);
+                } else {
+                    message.info('无账号连接');
+                }
             };
 
             window.ethereum.on('accountsChanged', handleAccountsChanged);
@@ -44,7 +50,6 @@ const useMetamask = () => {
         if (window.ethereum) {
             try {
                 // 请求用户授权连接 MetaMask
-                console.log("123",);
                 const accounts = await
                     window.ethereum.request({ method: 'eth_requestAccounts' });
                 // 创建以太坊 Provider
@@ -72,6 +77,7 @@ const useMetamask = () => {
 
                 }
                 setIsLoading(false);
+                throw error;
             }
         }
         else {
