@@ -35,6 +35,14 @@ const Menu: React.FC = () => {
             navigator('/contractInteract');
           },
         },
+        {
+          key: '1-3',
+          label: '批量转账',
+          onClick: () => {
+            setMenu('批量转账');
+            navigator('/TransferAll');
+          },
+        },
       ],
     },
     {

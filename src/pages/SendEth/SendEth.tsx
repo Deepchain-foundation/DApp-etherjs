@@ -1,15 +1,15 @@
 import './sendEth.css';
 
-import { Button, Card, Col, Form, Input, message, Row, Spin } from 'antd';
+import { Button, Card, Col, Form, Input, Row, Spin } from 'antd';
 import { useEffect, useState } from 'react';
 
 import getethRemain from '@/components/util/getethRemain';
 import useMetamask from '@/components/util/useMetamask';
 import useSendEth from '@/components/util/useSendEth';
 
-declare let window: any;
 const SendEth = () => {
   const [remain, setRemain] = useState<string | undefined>();
+  // 发送eth hook
   const { sendEth, loading: sendLoading, hash } = useSendEth();
   const [form] = Form.useForm();
   const {
@@ -39,7 +39,7 @@ const SendEth = () => {
     getethRemain(accountAddress[0]).then((e) => {
       setRemain(e);
     });
-    // 这里在内部进行了错误处理没有向上冒泡
+    // getethRemain这里在内部进行了错误处理没有向上冒泡
   }, [accountAddress]);
 
   return (

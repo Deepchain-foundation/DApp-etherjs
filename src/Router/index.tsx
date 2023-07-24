@@ -8,6 +8,7 @@ import { useRecoilValue } from 'recoil';
 
 import ContractInteract from '@/pages/Contract/ContractInteract';
 import ReadContract from '@/pages/Contract/ReadContract';
+import TransferAll from '@/pages/Contract/TransferAll';
 import Home from '@/pages/Home';
 import HomePage from '@/pages/HomePage';
 import SendEth from '@/pages/SendEth/SendEth';
@@ -49,6 +50,11 @@ const routeConfig: routerConfigType[] = [
         path: 'contractInteract',
         auth: [1, 9, 8, 7, 'user1'],
         element: <ContractInteract></ContractInteract>,
+      },
+      {
+        path: 'TransferAll',
+        auth: [1, 9, 8, 7, 'user1'],
+        element: <TransferAll></TransferAll>,
       },
     ],
   },
