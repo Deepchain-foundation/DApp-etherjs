@@ -1,18 +1,21 @@
 import { UploadOutlined } from '@ant-design/icons';
 import type { UploadProps } from 'antd';
-import { Button, Col, Form, Input, message, Row, Select, Upload } from 'antd';
+import { Button, Card, Col, Form, Input, message, Row, Select, Upload } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import { ethers } from 'ethers';
 import { parse } from 'papaparse';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import useMetamask from '@/components/hook/useMetamask';
 import batchTransfer from '@/components/util/BatchTransfer';
+import ERC20Remain from '@/components/util/ERC20Remain';
 
-declare let window: any;
 const BatchTransfer = () => {
   // 表单管理
   const [form] = Form.useForm();
+
+  // 余额
+  const [remain, setRemain] = useState<string | undefined>();
 
   // 发送地址
   const recipients = useRef();
@@ -24,6 +27,9 @@ const BatchTransfer = () => {
   const {
     connectToMetamask,
     data: { accountAddress },
+    request,
+    error,
+    isLoading,
   } = useMetamask();
 
   // 上传文件的回调函数
@@ -61,28 +67,59 @@ const BatchTransfer = () => {
 
   // 发送前处理数据成两个数组
   const parseSendContent = (text: any) => {
-    // 解析数据
+    // 借用工具 处理数据虽然这里已经不是csv 但我用它处理,了
+    // ( 考虑用正则找, 分别放到两个数组中)
     const parsedData: any = parse(text, {
       header: false,
       skipEmptyLines: true,
     });
 
-    // 直接处理数据存在ref中 如果不添加内容可以直接用
-    recipients.current = parsedData.data?.map((item: any) => item[0]);
+    // 直接处理数据存在ref中 都去空格  把ref当成了一个数据过渡变量
+    recipients.current = parsedData.data?.map((item: any) => item[0]?.trim());
     amounts.current = parsedData.data?.map((item: any) =>
-      ethers.utils.parseUnits(item[1], 18),
+      ethers.utils.parseUnits(item[1].trim(), 18),
     );
+  };
+
+  // 查询余额函数  地址选择框改变函数
+  const handleRemainSearch = (value: string | undefined) => {
+    if (!value) {
+      // eslint-disable-next-line no-param-reassign
+      value = form.getFieldValue('useAddress');
+    }
+    // 合约地址 去空格
+    const addressContract = form.getFieldValue('contractAddress')?.trim();
+
+    if (addressContract && value) {
+      ERC20Remain(addressContract, value as string)
+        .then((e) => {
+          setRemain(e);
+        })
+        .catch(() => {
+          console.log('获取余额出错');
+        });
+    }
   };
 
   const send = async () => {
     // 获取所有的表单值
     const data = form.getFieldsValue(true);
 
+    // 去除空格
+    data.contractAddress = data.contractAddress.trim();
+
     // 发送前处理 都是同步的不用处理
     parseSendContent(data.content);
 
     // 调用发送函数
-    batchTransfer({ ...data, recipients: recipients.current, amounts: amounts.current });
+    batchTransfer({
+      ...data,
+      recipients: recipients.current,
+      amounts: amounts.current,
+    }).then(() => {
+      // 重新获取余额数据
+      handleRemainSearch(undefined);
+    });
   };
 
   useEffect(() => {
@@ -101,9 +138,17 @@ const BatchTransfer = () => {
       <br />
       <div className="transfer-card">
         <div className="Title">
-          {/* 可以选择代币 */}
-          <Button>代币:{}</Button>
-          <Button>余额:{}</Button>
+          {/* 可以选择代币  这里先写死 后续补上代币选择功能*/}
+          {/* <Button>代币:{}MTK</Button> */}
+          <Button
+            loading={!error && isLoading}
+            onClick={() => {
+              request();
+            }}
+          >
+            连接钱包
+          </Button>
+          <Button>余额:{remain}MTK</Button>
         </div>
         <hr />
         <Form
@@ -120,14 +165,20 @@ const BatchTransfer = () => {
             name="contractAddress"
             rules={[{ required: true, message: 'Please input your contract address' }]}
           >
-            <Input style={{ textAlign: 'center' }} />
+            <Input
+              onChange={() => {
+                handleRemainSearch(undefined);
+              }}
+              style={{ textAlign: 'center' }}
+            />
           </Form.Item>
+
           <Form.Item
             label="选择账号"
             name="useAddress"
             rules={[{ required: true, message: 'Please select your send address' }]}
           >
-            <Select style={{ width: '100%' }}>
+            <Select style={{ width: '100%' }} onChange={handleRemainSearch}>
               {accountAddress.length > 0 &&
                 accountAddress.map((item) => {
                   return (
@@ -162,17 +213,21 @@ const BatchTransfer = () => {
           </Form.Item>
 
           {/* 操作 */}
-          <Row className="form-button-row">
-            <Col offset={8} span={4}>
+          <Row className="form-button-row" justify={'space-between'}>
+            <Col span={4}>
               <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                <Button htmlType="submit">发送</Button>
+                <Button htmlType="submit" style={{ width: 100 }}>
+                  发送
+                </Button>
               </Form.Item>
             </Col>
             <Col span={4}>
               <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
                 <Button
+                  style={{ width: 100 }}
                   onClick={() => {
                     form.resetFields();
+                    setRemain(undefined);
                   }}
                 >
                   重置
@@ -181,8 +236,17 @@ const BatchTransfer = () => {
             </Col>
           </Row>
         </Form>
-        <div>测试批量转账合约地址 0x68B1D87F95878fE05B998F19b66F4baba5De1aed</div>
       </div>
+      <Card className="show-answer">
+        <h4>功能</h4>
+        <hr />
+        <div>
+          整合后的代码，所有联系内容，连接钱包/重连，显示代币余额，批量转账，可以导入，导入后可以手动修改，处理了空格，过程状态显示，数据由表单统一管理，空值检测
+        </div>
+        <hr />
+        <div>测试批量转账合约地址 0x68B1D87F95878fE05B998F19b66F4baba5De1aed</div>
+        <div>正式网中是不是能获取到合约地址，只要选择代币</div>
+      </Card>
     </>
   );
 };

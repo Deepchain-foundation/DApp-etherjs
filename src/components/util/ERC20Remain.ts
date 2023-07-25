@@ -4,6 +4,12 @@ declare let window: any;
 
 const tokenDecimals = 18;
 
+/**
+ * 
+ * @param addressERC20 币种合约地址
+ * @param address 查询地址
+ * @returns 余额
+ */
 async function ERC20Remain(addressERC20: string, address: string) {
     if (addressERC20 && address) {
         const provider = new ethers.providers.Web3Provider(window.ethereum);

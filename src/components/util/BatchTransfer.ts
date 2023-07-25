@@ -1,4 +1,5 @@
 /* eslint-disable max-len */
+import { message } from 'antd';
 import { ethers } from 'ethers';
 
 import { tokenAbi } from '@/abi';
@@ -51,10 +52,32 @@ async function batchTransfer({
 
   try {
     // 调用 ERC20 合约中的批量转账方法
+
+    message.loading({
+      content: '待确认',
+      key: 'keymessage',
+      duration: 0,
+    });
+
     const tx = await contract.batchTransfer(recipients, amounts);
 
+    message.loading({
+      content: '已确认，等待交易中',
+      key: 'keymessage',
+      duration: 0,
+    });
+
     await tx.wait();
+    message.destroy('keymessage');
+    message.success('成功');
+
   } catch (err: any) {
+    if (err.code === 'ACTION_REJECTED') {
+      message.error('已拒绝');
+    } else {
+      console.log('交易错误', err.message);
+    }
+    message.destroy('keymessage');
     console.error('Error during batch transfer:', err.message);
   }
 
