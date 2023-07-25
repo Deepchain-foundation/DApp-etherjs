@@ -6,9 +6,9 @@ import type { RouteObject } from 'react-router-dom';
 import { Navigate, useRoutes } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
+import BatchTransfer from '@/pages/Contract/BatchTransfer';
 import ContractInteract from '@/pages/Contract/ContractInteract';
 import ReadContract from '@/pages/Contract/ReadContract';
-import TransferAll from '@/pages/Contract/TransferAll';
 import Home from '@/pages/Home';
 import HomePage from '@/pages/HomePage';
 import SendEth from '@/pages/SendEth/SendEth';
@@ -54,7 +54,7 @@ const routeConfig: routerConfigType[] = [
       {
         path: 'TransferAll',
         auth: [1, 9, 8, 7, 'user1'],
-        element: <TransferAll></TransferAll>,
+        element: <BatchTransfer></BatchTransfer>,
       },
     ],
   },

@@ -12,11 +12,33 @@
     right: 20px;
 }
 
-.transfer-card{
-    width: 40%;
-    height: 100%;
-    background-color: #fff;
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
+.Title-header-div{
+    width: 100%;
+    text-align: center;
+    background-color:#e6f4ff ;
+    padding: 10px;
 }
+
+.transfer-card{
+    position: relative;
+    margin: auto;
+    width: 40%;
+    background-color: #fff;
+    padding:20px 20px 80px;
+    border-radius: 10px;
+    box-sizing: border-box;
+}
+
+.Title{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+/* .form-button-row{
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 10px;
+    display: flex;
+} */

@@ -3,9 +3,9 @@ import './sendEth.css';
 import { Button, Card, Col, Form, Input, Row, Spin } from 'antd';
 import { useEffect, useState } from 'react';
 
-import getethRemain from '@/components/hook/getethRemain';
 import useMetamask from '@/components/hook/useMetamask';
 import useSendEth from '@/components/hook/useSendEth';
+import getethRemain from '@/components/util/getethRemain';
 
 const SendEth = () => {
   const [remain, setRemain] = useState<string | undefined>();

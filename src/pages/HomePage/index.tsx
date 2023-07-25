@@ -18,7 +18,14 @@ const HomePage = () => {
           <Menu></Menu>
           <h1 className="Middle">{menuName}</h1>
         </Header>
-        <Content style={{ height: '100%', width: '100%', position: 'relative' }}>
+        <Content
+          style={{
+            height: '100%',
+            width: '100%',
+            position: 'relative',
+            overflow: 'auto',
+          }}
+        >
           <Outlet></Outlet>
         </Content>
       </Layout>

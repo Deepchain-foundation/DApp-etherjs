@@ -41,3 +41,33 @@
 button {
   font-size: calc(10px + 2vmin);
 }
+
+
+
+::-webkit-scrollbar {
+  /* 滚动条整体样式 */
+  width: 6px; /* 高宽分别对应横竖滚动条的尺寸 */
+  height: 5px;
+  float: right;
+}
+
+
+::-webkit-scrollbar-thumb {
+  /* 滚动条里面小方块 */
+  border-radius: 1rem;
+  box-shadow: inset 0 0 12px rgb(96 96 96 / 20%);
+  background: rgb(96 96 96);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  /* 滚动条里面小方块 */
+  border-radius: 1rem;
+  box-shadow: inset 0 0 12px rgb(144 144 144 / 20%);
+  background: rgb(144 144 144);
+}
+
+
+::-webkit-scrollbar-track {
+  /* 滚动条里面轨道 */
+  border: 0;
+}

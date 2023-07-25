@@ -7,7 +7,7 @@ import useMetamask from '@/components/hook/useMetamask';
 declare let window: any;
 // ERC20合约地址
 // const addressWETH = '0x25100e2adC08B2956C8f5AecE6F0928f65f315E0';
-const abiWETH = [
+const tokenAbi = [
   'function balanceOf(address) public view returns(uint)',
   'function deposit() public payable',
   'function transfer(address, uint) public returns (bool)',
@@ -31,7 +31,7 @@ const ContractInteract = () => {
       const signer = provider.getSigner();
 
       // 声明可写合约
-      const contractWETH = new ethers.Contract(contractAddress, abiWETH, signer);
+      const contractWETH = new ethers.Contract(contractAddress, tokenAbi, signer);
       // 查询余额
       // const balanceWETH = await contractWETH.balanceOf(
       //   '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266',

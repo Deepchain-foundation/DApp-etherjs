@@ -72,56 +72,9 @@ const ReadContract = () => {
     }
   }, [accountAddress]);
 
-  // useEffect(() => {
-  //   readMain();
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [currentAddress]);
-  // const create = async () => {
-  //   // @ts-ignore
-  //   // 创建随机的wallet对象
-  //   const provider = new ethers.providers.Web3Provider(window.ethereum);
-  //   const wallet1 = ethers.Wallet.createRandom();
-  //   const wallet1WithProvider = wallet1.connect(provider);
-  //   // 获取助记词
-  //   const mnemonic = wallet1.mnemonic.phrase;
-  //   // 获取私钥
-  //   const privateKey = wallet1.privateKey;
-  //   // 获取地址
-  //   const address1 = await wallet1.getAddress();
-  //   // 获取交易次数
-  //   // const txCount1 = await wallet1WithProvider.getTransactionCount();
-  //   console.log('address1', address1, mnemonic, privateKey);
-
-  //   // 交易
-  //   console.log('i. 发送前余额');
-  //   console.log(
-  //     `钱包: ${ethers.utils.formatEther(await wallet1WithProvider.getBalance())} ETH`,
-  //   );
-  //   const tx = {
-  //     to: '0xf97D095CBB8b81f151d80f298680E6cDBBD4DBa8',
-  //     value: ethers.utils.parseEther('0.001'),
-  //   };
-  //   const receipt = await wallet1.sendTransaction(tx);
-  //   await receipt.wait(); // 等待链上确认交易
-  //   console.log(receipt); // 打印交易详情
-  //   console.log('\niii. 发送后余额');
-  //   console.log(
-  //     `钱包1: ${ethers.utils.formatEther(await wallet1WithProvider.getBalance())} ETH`,
-  //   );
-  // };
-
   return (
     <Card className="read-div-center">
       <Space size={'large'}>
-        {/* <Button
-          loading={!error && isLoading}
-          onClick={() => {
-            connectToMetamask();
-          }}
-          style={{ width: '120px' }}
-        >
-          {success ? '已连接' : '点击连接'}
-        </Button> */}
         <Button
           loading={!error && isLoading}
           onClick={() => {
@@ -136,11 +89,7 @@ const ReadContract = () => {
           重新授权/新建连接
         </Button>
       </Space>
-      <Button
-        type="primary"
-        className="ReadMain"
-        onClick={readMain}
-      >
+      <Button type="primary" className="ReadMain" onClick={readMain}>
         查询
       </Button>
       <hr />

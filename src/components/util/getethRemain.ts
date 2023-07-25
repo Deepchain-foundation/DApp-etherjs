@@ -6,7 +6,7 @@ const getethRemain = async (walletAddress: string) => {
     if (walletAddress) {
         try {
             const provider = new ethers.providers.Web3Provider(window.ethereum);
-            // 使用 `ethers.utils.getAddress` 方法确保钱包地址的格式正确
+
             const address = ethers.utils.getAddress(walletAddress);
 
             // 使用 `provider.getBalance` 方法查询以太币余额
