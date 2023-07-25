@@ -2,7 +2,7 @@ import { Button, Card, Col, Form, Input, message, Row } from 'antd';
 import { ethers } from 'ethers';
 import { useEffect } from 'react';
 
-import useMetamask from '@/components/util/useMetamask';
+import useMetamask from '@/components/hook/useMetamask';
 
 declare let window: any;
 // ERC20合约地址

@@ -4,7 +4,7 @@ import { Button, Card, Col, Input, Row, Select, Space, Spin } from 'antd';
 import { ethers } from 'ethers';
 import { useEffect, useState } from 'react';
 
-import useMetamask from '@/components/util/useMetamask';
+import useMetamask from '@/components/hook/useMetamask';
 
 declare let window: any;
 const myaddresstest = '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266';
