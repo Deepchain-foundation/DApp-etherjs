@@ -158,6 +158,7 @@ const ReadContract = () => {
       <br />
       <hr />
       <div>ERC-20合约地址：0x25100e2adC08B2956C8f5AecE6F0928f65f315E0</div>
+      <div>0x68B1D87F95878fE05B998F19b66F4baba5De1aed</div>
     </Card>
   );
 };

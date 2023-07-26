@@ -207,7 +207,7 @@ const BatchTransfer = () => {
           {/* 内容--- 地址和数量  数组 */}
           <Form.Item
             name="content"
-            rules={[{ required: true, message: 'Please select your send content' }]}
+            rules={[{ required: true, message: 'Please input your send content' }]}
           >
             <TextArea rows={8} />
           </Form.Item>
@@ -241,11 +241,13 @@ const BatchTransfer = () => {
         <h4>功能</h4>
         <hr />
         <div>
-          整合后的代码，所有联系内容，连接钱包/重连，显示代币余额，批量转账，可以导入，导入后可以手动修改，处理了空格，过程状态显示，数据由表单统一管理，空值检测
+          整合后的代码，所有练习内容，连接钱包/重连，显示代币余额，批量转账，可以导入，导入后可以手动修改，处理了空格，过程状态显示，数据由表单统一管理，空值检测
         </div>
         <hr />
         <div>测试批量转账合约地址 0x68B1D87F95878fE05B998F19b66F4baba5De1aed</div>
-        <div>正式网中是不是能获取到合约地址，只要选择代币</div>
+        <div>
+          选择代币种类，正式网中是不是选择了代币，就能获取到合约地址，合约地址不用手动填写呢
+        </div>
       </Card>
     </>
   );

@@ -90,6 +90,8 @@ const ContractInteract = () => {
   return (
     <>
       <Card className="read-div-center">
+        <h3>使用合约简单转账(默认当前使用的账号)</h3>
+        <hr />
         <Form
           name="sendConent"
           form={form}
@@ -142,6 +144,7 @@ const ContractInteract = () => {
           </Row>
         </Form>
         <div>ERC-20合约地址：0x25100e2adC08B2956C8f5AecE6F0928f65f315E0</div>
+        <div>0x68B1D87F95878fE05B998F19b66F4baba5De1aed</div>
       </Card>
     </>
   );
