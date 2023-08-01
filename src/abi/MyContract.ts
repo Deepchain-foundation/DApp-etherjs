@@ -26,7 +26,7 @@ import type {
   OnEvent,
 } from "./common";
 
-export interface AbiInterface extends utils.Interface {
+export interface MyContractInterface extends utils.Interface {
   functions: {
     "allowance(address,address)": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
@@ -217,12 +217,12 @@ export type TransferWithMessageEvent = TypedEvent<
 export type TransferWithMessageEventFilter =
   TypedEventFilter<TransferWithMessageEvent>;
 
-export interface Abi extends BaseContract {
+export interface MyContract extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  interface: AbiInterface;
+  interface: MyContractInterface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,

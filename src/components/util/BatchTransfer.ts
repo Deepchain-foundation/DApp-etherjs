@@ -2,7 +2,7 @@
 import { message } from 'antd';
 import { ethers } from 'ethers';
 
-import { tokenAbi } from '@/abi';
+import { MyContract__factory } from '@/abi';
 
 type TransType = {
   contractAddress: string;
@@ -43,12 +43,12 @@ async function batchTransfer({
 
   // 创建 ethers.js 提供者
   const provider = new ethers.providers.Web3Provider(window.ethereum);
-
   // 获取当前钱包地址
   const signer = provider.getSigner(useAddress);
 
   // 获取ERC20合约实例
-  const contract = new ethers.Contract(contractAddress, tokenAbi, signer);
+  // const contract = new ethers.Contract(contractAddress, tokenAbi, signer);
+  const contract = MyContract__factory.connect(contractAddress, signer);
 
   try {
     // 调用 ERC20 合约中的批量转账方法
