@@ -31,7 +31,6 @@ export interface AbiInterface extends utils.Interface {
     "allowance(address,address)": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
-    "batchTransfer(address[],uint256[])": FunctionFragment;
     "contractOwner()": FunctionFragment;
     "decimals()": FunctionFragment;
     "decreaseAllowance(address,uint256)": FunctionFragment;
@@ -43,6 +42,10 @@ export interface AbiInterface extends utils.Interface {
     "transfer(address,uint256)": FunctionFragment;
     "transferFrom(address,address,uint256)": FunctionFragment;
     "transferWithMessage(address,uint256,string)": FunctionFragment;
+    "batchTransfer(address[],uint256[])": FunctionFragment;
+    "getBalance(address)": FunctionFragment;
+    "getContractBalance()": FunctionFragment;
+    "myToken()": FunctionFragment;
   };
 
   getFunction(
@@ -50,7 +53,6 @@ export interface AbiInterface extends utils.Interface {
       | "allowance"
       | "approve"
       | "balanceOf"
-      | "batchTransfer"
       | "contractOwner"
       | "decimals"
       | "decreaseAllowance"
@@ -62,6 +64,10 @@ export interface AbiInterface extends utils.Interface {
       | "transfer"
       | "transferFrom"
       | "transferWithMessage"
+      | "batchTransfer"
+      | "getBalance"
+      | "getContractBalance"
+      | "myToken"
   ): FunctionFragment;
 
   encodeFunctionData(
@@ -73,10 +79,6 @@ export interface AbiInterface extends utils.Interface {
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "balanceOf", values: [string]): string;
-  encodeFunctionData(
-    functionFragment: "batchTransfer",
-    values: [string[], BigNumberish[]]
-  ): string;
   encodeFunctionData(
     functionFragment: "contractOwner",
     values?: undefined
@@ -112,14 +114,20 @@ export interface AbiInterface extends utils.Interface {
     functionFragment: "transferWithMessage",
     values: [string, BigNumberish, string]
   ): string;
+  encodeFunctionData(
+    functionFragment: "batchTransfer",
+    values: [string[], BigNumberish[]]
+  ): string;
+  encodeFunctionData(functionFragment: "getBalance", values: [string]): string;
+  encodeFunctionData(
+    functionFragment: "getContractBalance",
+    values?: undefined
+  ): string;
+  encodeFunctionData(functionFragment: "myToken", values?: undefined): string;
 
   decodeFunctionResult(functionFragment: "allowance", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "batchTransfer",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(
     functionFragment: "contractOwner",
     data: BytesLike
@@ -149,6 +157,16 @@ export interface AbiInterface extends utils.Interface {
     functionFragment: "transferWithMessage",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "batchTransfer",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "getBalance", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "getContractBalance",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "myToken", data: BytesLike): Result;
 
   events: {
     "Approval(address,address,uint256)": EventFragment;
@@ -240,12 +258,6 @@ export interface Abi extends BaseContract {
 
     balanceOf(account: string, overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    batchTransfer(
-      recipients: string[],
-      amounts: BigNumberish[],
-      overrides?: Overrides & { from?: string }
-    ): Promise<ContractTransaction>;
-
     contractOwner(overrides?: CallOverrides): Promise<[string]>;
 
     decimals(overrides?: CallOverrides): Promise<[number]>;
@@ -293,6 +305,21 @@ export interface Abi extends BaseContract {
       message: string,
       overrides?: Overrides & { from?: string }
     ): Promise<ContractTransaction>;
+
+    batchTransfer(
+      recipients: string[],
+      amounts: BigNumberish[],
+      overrides?: Overrides & { from?: string }
+    ): Promise<ContractTransaction>;
+
+    getBalance(
+      account: string,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
+    getContractBalance(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    myToken(overrides?: CallOverrides): Promise<[string]>;
   };
 
   allowance(
@@ -308,12 +335,6 @@ export interface Abi extends BaseContract {
   ): Promise<ContractTransaction>;
 
   balanceOf(account: string, overrides?: CallOverrides): Promise<BigNumber>;
-
-  batchTransfer(
-    recipients: string[],
-    amounts: BigNumberish[],
-    overrides?: Overrides & { from?: string }
-  ): Promise<ContractTransaction>;
 
   contractOwner(overrides?: CallOverrides): Promise<string>;
 
@@ -363,6 +384,18 @@ export interface Abi extends BaseContract {
     overrides?: Overrides & { from?: string }
   ): Promise<ContractTransaction>;
 
+  batchTransfer(
+    recipients: string[],
+    amounts: BigNumberish[],
+    overrides?: Overrides & { from?: string }
+  ): Promise<ContractTransaction>;
+
+  getBalance(account: string, overrides?: CallOverrides): Promise<BigNumber>;
+
+  getContractBalance(overrides?: CallOverrides): Promise<BigNumber>;
+
+  myToken(overrides?: CallOverrides): Promise<string>;
+
   callStatic: {
     allowance(
       owner: string,
@@ -377,12 +410,6 @@ export interface Abi extends BaseContract {
     ): Promise<boolean>;
 
     balanceOf(account: string, overrides?: CallOverrides): Promise<BigNumber>;
-
-    batchTransfer(
-      recipients: string[],
-      amounts: BigNumberish[],
-      overrides?: CallOverrides
-    ): Promise<void>;
 
     contractOwner(overrides?: CallOverrides): Promise<string>;
 
@@ -431,6 +458,18 @@ export interface Abi extends BaseContract {
       message: string,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    batchTransfer(
+      recipients: string[],
+      amounts: BigNumberish[],
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    getBalance(account: string, overrides?: CallOverrides): Promise<BigNumber>;
+
+    getContractBalance(overrides?: CallOverrides): Promise<BigNumber>;
+
+    myToken(overrides?: CallOverrides): Promise<string>;
   };
 
   filters: {
@@ -485,12 +524,6 @@ export interface Abi extends BaseContract {
 
     balanceOf(account: string, overrides?: CallOverrides): Promise<BigNumber>;
 
-    batchTransfer(
-      recipients: string[],
-      amounts: BigNumberish[],
-      overrides?: Overrides & { from?: string }
-    ): Promise<BigNumber>;
-
     contractOwner(overrides?: CallOverrides): Promise<BigNumber>;
 
     decimals(overrides?: CallOverrides): Promise<BigNumber>;
@@ -538,6 +571,18 @@ export interface Abi extends BaseContract {
       message: string,
       overrides?: Overrides & { from?: string }
     ): Promise<BigNumber>;
+
+    batchTransfer(
+      recipients: string[],
+      amounts: BigNumberish[],
+      overrides?: Overrides & { from?: string }
+    ): Promise<BigNumber>;
+
+    getBalance(account: string, overrides?: CallOverrides): Promise<BigNumber>;
+
+    getContractBalance(overrides?: CallOverrides): Promise<BigNumber>;
+
+    myToken(overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
@@ -556,12 +601,6 @@ export interface Abi extends BaseContract {
     balanceOf(
       account: string,
       overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    batchTransfer(
-      recipients: string[],
-      amounts: BigNumberish[],
-      overrides?: Overrides & { from?: string }
     ): Promise<PopulatedTransaction>;
 
     contractOwner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
@@ -611,5 +650,22 @@ export interface Abi extends BaseContract {
       message: string,
       overrides?: Overrides & { from?: string }
     ): Promise<PopulatedTransaction>;
+
+    batchTransfer(
+      recipients: string[],
+      amounts: BigNumberish[],
+      overrides?: Overrides & { from?: string }
+    ): Promise<PopulatedTransaction>;
+
+    getBalance(
+      account: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getContractBalance(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    myToken(overrides?: CallOverrides): Promise<PopulatedTransaction>;
   };
 }
