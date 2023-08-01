@@ -13,13 +13,15 @@
     "lint:jsFix": "eslint --config ./.config/.eslintrc.js --ignore-path ./.config/.eslintignore --ext .jsx,.js,.ts,.tsx --fix ./src",
     "lint:format": "prettier --config ./.config/.prettierrc.js --ignore-path ./.config/.prettierignore --loglevel warn --write \"./**/*.{js,jsx,ts,tsx,css,less,md,json}\"",
     "lint:styleFix": "stylelint --config ./.config/.stylelintrc.js --ignore-path ./.config/.stylelintignore --fix \"./src/**/*?.(less|css)\" ",
-    "type-check": "tsc"
+    "type-check": "tsc",
+    "generate": "typechain --target ethers-v5 --out-dir=./src/abi/ ./src/abi/*.json"
   },
   "dependencies": {
     "@apollo/client": "^3.6.5",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@mui/material": "^5.14.1",
+    "@typechain/ethers-v5": "^11.1.1",
     "@types/papaparse": "^5.3.7",
     "ahooks": "^3.3.8",
     "antd": "^5.2.3",
@@ -59,6 +61,7 @@
     "stylelint-config-prettier": "^9.0.3",
     "stylelint-config-standard": "^30.0.1",
     "stylelint-order": "^6.0.2",
+    "typechain": "^8.3.1",
     "typescript": "^4.6.3",
     "vite": "^4.1.4",
     "vite-plugin-eslint": "^1.4.0",
